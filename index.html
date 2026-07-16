@@ -2,115 +2,617 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="2026 最新人格測驗">
-<meta property="og:description" content="完成 8 題，立即分析你的真實人格">
-<meta property="og:image" content="https://jelley-lang.github.io/prank-test/cover.jpg">
-<meta property="og:type" content="website">
 
-  <title>2026 最新人格測驗｜測出朋友眼中的你</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <meta property="og:title" content="你的隱藏人格測驗">
-  <meta property="og:description" content="只要 10 秒，測出你不為人知的真實人格">
-  <meta property="og:type" content="website">
+  <!-- 瀏覽器分頁標題 -->
+  <title>你的隱藏人格測驗｜測出朋友眼中的你</title>
+
+  <!-- LINE、Facebook 等平台的分享預覽 -->
+  <meta
+    property="og:title"
+    content="你的隱藏人格測驗"
+  >
+
+  <meta
+    property="og:description"
+    content="完成 6 題測驗，立即分析你不為人知的真實人格。"
+  >
+
+  <meta
+    property="og:image"
+    content="https://jelley-lang.github.io/prank-test/cover.jpg"
+  >
+
+  <meta
+    property="og:url"
+    content="https://jelley-lang.github.io/prank-test/"
+  >
+
+  <meta
+    property="og:type"
+    content="website"
+  >
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
+      padding: 24px 16px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #f6f3ff;
-      font-family: Arial, "Microsoft JhengHei", sans-serif;
-      text-align: center;
+      background:
+        linear-gradient(
+          135deg,
+          #f4efff 0%,
+          #fff4f8 50%,
+          #eef7ff 100%
+        );
+      font-family:
+        Arial,
+        "Microsoft JhengHei",
+        "PingFang TC",
+        sans-serif;
+      color: #2f2942;
     }
 
     .card {
-      width: min(88%, 420px);
-      padding: 36px 24px;
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      width: min(100%, 480px);
+      min-height: 520px;
+      padding: 36px 28px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      box-shadow:
+        0 18px 50px rgba(85, 63, 130, 0.16);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .decor {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(139, 108, 246, 0.08);
+      top: -80px;
+      right: -70px;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 14px;
+      margin-bottom: 18px;
+      background: #f1edff;
+      color: #7657d8;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     h1 {
-      margin-top: 0;
-      font-size: 28px;
+      margin: 0 0 16px;
+      font-size: 30px;
+      line-height: 1.35;
+    }
+
+    h2 {
+      margin: 10px 0 24px;
+      font-size: 24px;
+      line-height: 1.5;
     }
 
     p {
-      line-height: 1.7;
-      color: #555;
+      margin: 0;
+      color: #6b6578;
+      font-size: 16px;
+      line-height: 1.8;
     }
 
-    button {
-      margin-top: 18px;
-      padding: 14px 34px;
+    .main-button {
+      width: 100%;
+      margin-top: 28px;
+      padding: 16px 22px;
       border: none;
-      border-radius: 999px;
-      background: #7257e8;
+      border-radius: 16px;
+      background:
+        linear-gradient(
+          135deg,
+          #8062e8,
+          #9d6fe8
+        );
       color: white;
       font-size: 17px;
+      font-weight: 700;
       cursor: pointer;
+      box-shadow:
+        0 10px 24px rgba(128, 98, 232, 0.28);
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
     }
 
-    button:hover {
-      opacity: 0.9;
+    .main-button:hover {
+      transform: translateY(-2px);
     }
 
-    #result {
+    .main-button:active {
+      transform: scale(0.98);
+    }
+
+    .hidden {
       display: none;
     }
 
-    #result img {
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #777082;
+      font-size: 14px;
+    }
+
+    .progress-track {
       width: 100%;
+      height: 10px;
+      margin-bottom: 30px;
+      background: #ece8f5;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background:
+        linear-gradient(
+          90deg,
+          #7e63df,
+          #c277cf
+        );
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .options {
+      display: grid;
+      gap: 13px;
+    }
+
+    .option-button {
+      width: 100%;
+      padding: 15px 18px;
+      border: 2px solid #ebe6f4;
+      border-radius: 15px;
+      background: #ffffff;
+      color: #40394f;
+      font-size: 16px;
+      line-height: 1.5;
+      cursor: pointer;
+      text-align: left;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .option-button:hover {
+      border-color: #9a7ce8;
+      background: #faf8ff;
+      transform: translateY(-1px);
+    }
+
+    .loading-circle {
+      width: 78px;
+      height: 78px;
+      margin: 34px auto 26px;
+      border: 8px solid #ede9f6;
+      border-top-color: #8264df;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-status {
+      margin-top: 24px;
+      color: #776f83;
+      font-size: 15px;
+      min-height: 26px;
+    }
+
+    .result-type {
+      display: inline-block;
+      margin: 10px 0 20px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #f0ebff;
+      color: #7353d7;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .result-image {
+      display: block;
+      width: 100%;
+      max-height: 360px;
+      margin-top: 20px;
+      border-radius: 18px;
+      object-fit: contain;
+      background: #f4f4f4;
+    }
+
+    .small-text {
       margin-top: 18px;
-      border-radius: 16px;
+      color: #928b9d;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        min-height: 500px;
+        padding: 30px 20px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
 
 <body>
   <main class="card">
-    <section id="start">
+    <div class="decor"></div>
+
+    <!-- 首頁 -->
+    <section id="startPage">
+      <div class="badge">2026 最新心理分析</div>
+
       <h1>你的隱藏人格測驗</h1>
 
       <p>
-        只需回答幾個簡單問題，<br>
-        立即分析你最真實的一面。
+        透過六個簡單問題，分析你的思考模式、
+        人際特質，以及朋友眼中的真實形象。
       </p>
 
-      <button onclick="showResult()">開始測驗</button>
-    </section>
-
-    <section id="loading" style="display:none;">
-      <h1>正在分析你的人格……</h1>
-      <p>比對心理特質與行為模式中</p>
-    </section>
-
-    <section id="result">
-      <h1>分析完成</h1>
-      <p>你的人格類型是：</p>
-      <h2>看到連結就會亂點型</h2>
-
-      <img
-        src="S__30883874.jpg"
-        alt="測驗結果梗圖"
+      <button
+        class="main-button"
+        onclick="startQuiz()"
       >
+        開始測驗
+      </button>
+
+      <div class="small-text">
+        測驗時間約 1 分鐘
+      </div>
+    </section>
+
+    <!-- 題目區 -->
+    <section
+      id="quizPage"
+      class="hidden"
+    >
+      <div class="progress-info">
+        <span id="questionNumber">
+          第 1 題
+        </span>
+
+        <span id="questionTotal">
+          共 6 題
+        </span>
+      </div>
+
+      <div class="progress-track">
+        <div
+          id="progressBar"
+          class="progress-bar"
+        ></div>
+      </div>
+
+      <h2 id="questionText"></h2>
+
+      <div
+        id="optionsContainer"
+        class="options"
+      ></div>
+    </section>
+
+    <!-- 分析區 -->
+    <section
+      id="loadingPage"
+      class="hidden"
+    >
+      <div class="badge">人格模型分析中</div>
+
+      <h1>正在計算你的測驗結果</h1>
+
+      <div class="loading-circle"></div>
+
+      <p>
+        正在比對你的選擇與心理特質……
+      </p>
+
+      <div
+        id="loadingStatus"
+        class="loading-status"
+      >
+        整理作答資料中
+      </div>
+    </section>
+
+    <!-- 結果區 -->
+    <section
+      id="resultPage"
+      class="hidden"
+    >
+      <div class="badge">測驗完成</div>
+
+      <h1>你的隱藏人格是</h1>
+
+      <div class="result-type">
+        看到連結就會點型
+      </div>
+
+      <p>
+        你擁有強烈的好奇心，
+        對陌生測驗缺乏基本防備，
+        並且願意花時間完成朋友傳來的可疑連結。
+      </p>
+
+      <!-- 將 result.jpg 換成你的梗圖檔名 -->
+      <img
+        class="result-image"
+        src="S__30883874.jpg"
+        alt="人格測驗結果梗圖"
+      >
+
+      <div class="small-text">
+        本測驗唯一證明的事情：
+        你真的把它做完了。
+      </div>
     </section>
   </main>
 
   <script>
-    function showResult() {
-      document.getElementById("start").style.display = "none";
-      document.getElementById("loading").style.display = "block";
+    const questions = [
+      {
+        question: "休假日沒有安排時，你通常會做什麼？",
+        options: [
+          "待在家裡休息，享受自己的時間",
+          "臨時約朋友出門走走",
+          "安排一整天的行程",
+          "滑手機滑到忘記時間"
+        ]
+      },
+      {
+        question: "進入陌生環境時，你通常會怎麼做？",
+        options: [
+          "先觀察其他人的反應",
+          "主動找人聊天",
+          "等別人來跟我說話",
+          "假裝很忙，避免尷尬"
+        ]
+      },
+      {
+        question: "朋友突然傳訊息說「有件事想跟你說」，你的第一反應是？",
+        options: [
+          "立刻追問發生什麼事",
+          "先猜是不是壞消息",
+          "等對方自己慢慢說",
+          "腦中已經演完八十集"
+        ]
+      },
+      {
+        question: "做決定時，你通常比較相信什麼？",
+        options: [
+          "客觀資料與實際經驗",
+          "自己的直覺",
+          "親近朋友的建議",
+          "當下的心情"
+        ]
+      },
+      {
+        question: "看到網路上的心理測驗時，你通常會？",
+        options: [
+          "覺得有趣就做看看",
+          "先看留言判斷準不準",
+          "傳給朋友一起測",
+          "明知不一定準還是會點"
+        ]
+      },
+      {
+        question: "你覺得這份測驗會準確嗎？",
+        options: [
+          "應該滿準的",
+          "可能有一點參考價值",
+          "做完才知道",
+          "我開始覺得哪裡怪怪的"
+        ]
+      }
+    ];
 
-      setTimeout(function () {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("result").style.display = "block";
-      }, 2500);
+    let currentQuestionIndex = 0;
+    const answers = [];
+
+    function startQuiz() {
+      document
+        .getElementById("startPage")
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById("quizPage")
+        .classList
+        .remove("hidden");
+
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const currentQuestion =
+        questions[currentQuestionIndex];
+
+      const questionNumber =
+        currentQuestionIndex + 1;
+
+      const progressPercentage =
+        (questionNumber / questions.length) * 100;
+
+      document.getElementById(
+        "questionNumber"
+      ).textContent =
+        `第 ${questionNumber} 題`;
+
+      document.getElementById(
+        "questionTotal"
+      ).textContent =
+        `共 ${questions.length} 題`;
+
+      document.getElementById(
+        "progressBar"
+      ).style.width =
+        `${progressPercentage}%`;
+
+      document.getElementById(
+        "questionText"
+      ).textContent =
+        currentQuestion.question;
+
+      const optionsContainer =
+        document.getElementById(
+          "optionsContainer"
+        );
+
+      optionsContainer.innerHTML = "";
+
+      currentQuestion.options.forEach(
+        function(optionText, optionIndex) {
+          const button =
+            document.createElement("button");
+
+          button.className =
+            "option-button";
+
+          button.textContent =
+            optionText;
+
+          button.onclick =
+            function() {
+              selectAnswer(
+                optionIndex,
+                optionText
+              );
+            };
+
+          optionsContainer.appendChild(
+            button
+          );
+        }
+      );
+    }
+
+    function selectAnswer(
+      optionIndex,
+      optionText
+    ) {
+      answers.push({
+        question:
+          currentQuestionIndex,
+        option:
+          optionIndex,
+        answer:
+          optionText
+      });
+
+      currentQuestionIndex++;
+
+      if (
+        currentQuestionIndex <
+        questions.length
+      ) {
+        showQuestion();
+      } else {
+        showLoadingPage();
+      }
+    }
+
+    function showLoadingPage() {
+      document
+        .getElementById("quizPage")
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById("loadingPage")
+        .classList
+        .remove("hidden");
+
+      const loadingStatus =
+        document.getElementById(
+          "loadingStatus"
+        );
+
+      const messages = [
+        "整理作答資料中",
+        "分析你的行為傾向中",
+        "比對人格資料庫中",
+        "建立專屬人格模型中",
+        "結果即將完成"
+      ];
+
+      let messageIndex = 0;
+
+      const messageTimer =
+        setInterval(function() {
+          messageIndex++;
+
+          if (
+            messageIndex <
+            messages.length
+          ) {
+            loadingStatus.textContent =
+              messages[messageIndex];
+          }
+        }, 700);
+
+      setTimeout(function() {
+        clearInterval(messageTimer);
+
+        document
+          .getElementById("loadingPage")
+          .classList
+          .add("hidden");
+
+        document
+          .getElementById("resultPage")
+          .classList
+          .remove("hidden");
+      }, 3800);
     }
   </script>
 </body>
 </html>
+     
